@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Showcase Gallery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tahoma', sans-serif;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #fff;
+            line-height: 1.6;
+            background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/api/placeholder/1920/1080');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+        
+        header {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 1.5rem 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            top: 0;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 800;
+            padding: 0 1rem;
+            border-left: 4px solid #caa777;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: #caa777;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #caa777;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .main-content {
+            padding: 8rem 0 3rem;
+        }
+        
+        .hero-section {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 4rem;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(45deg, #9c27b0, #caa777);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 900;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 2rem;
+        }
+        
+        .cta-button {
+            background: linear-gradient(45deg, #9c27b0, #caa777);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 30px;
+            display: inline-block;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(202, 167, 119, 0.4);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(202, 167, 119, 0.6);
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            text-align: center;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, #9c27b0, #caa777);
+        }
+        
+        /* Video Carousel Styles */
+        .video-carousel-container {
+            position: relative;
+            margin: 4rem auto;
+            max-width: 900px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(202, 167, 119, 0.4);
+        }
+        
+        .video-carousel {
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.5s ease;
+            z-index: 1;
+            transform: translateX(100%);
+        }
+        
+        .carousel-slide.active {
+            opacity: 1;
+            z-index: 2;
+            transform: translateX(0);
+        }
+        
+        .carousel-slide.prev {
+            transform: translateX(-100%);
+        }
+        
+        .carousel-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .carousel-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .carousel-info {
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            flex-grow: 1;
+        }
+        
+        .carousel-nav {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            justify-content: center;
+        }
+        
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .carousel-dot.active {
+            background: linear-gradient(45deg, #9c27b0, #caa777);
+            transform: scale(1.2);
+        }
+        
+        .carousel-prev, .carousel-next {
+            background: linear-gradient(45deg, #9c27b0, #caa777);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-size: 1.5rem;
+            z-index: 3;
+        }
+        
+        .carousel-prev:hover, .carousel-next:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(202, 167, 119, 0.7);
+        }
+        
+        /* Regular gallery for non-video items */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+        
+        .media-item {
+            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            height: 250px;
+            background-color: #000;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        
+        .media-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(202, 167, 119, 0.3);
+        }
+        
+        .media-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s;
+        }
+        
+        .media-item:hover .media-thumbnail {
+            opacity: 0.7;
+        }
+        
+        .media-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 1.5rem 1rem 0.8rem;
+            font-size: 1rem;
+            text-align: center;
+            transform: translateY(0);
+            transition: transform 0.3s;
+        }
+        
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .floating-item {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #9c27b0, #caa777);
+            opacity: 0.2;
+            filter: blur(5px);
+        }
+        
+        /* Random positions for floating elements */
+        .floating-item:nth-child(1) {
+            width: 150px;
+            height: 150px;
+            top: 20%;
+            left: 10%;
+            animation: float 20s linear infinite;
+        }
+        
+        .floating-item:nth-child(2) {
+            width: 80px;
+            height: 80px;
+            top: 60%;
+            left: 70%;
+            animation: float 15s linear infinite reverse;
+        }
+        
+        .floating-item:nth-child(3) {
+            width: 120px;
+            height: 120px;
+            top: 70%;
+            left: 30%;
+            animation: float 25s linear infinite;
+        }
+        
+        .floating-item:nth-child(4) {
+            width: 60px;
+            height: 60px;
+            top: 30%;
+            left: 80%;
+            animation: float 18s linear infinite reverse;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate(100px, 100px) rotate(180deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+        
+        /* Modal for photos only */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.95);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            max-width: 80%;
+            max-height: 80%;
+            position: relative;
+        }
+        
+        .modal-image {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: transform 0.3s;
+        }
+        
+        .close-modal:hover {
+            transform: rotate(90deg);
+        }
+        
+        .project-info {
+            background-color: rgba(20, 20, 20, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 15px 50px rgba(202, 167, 119, 0.3);
+            padding: 3rem;
+            margin: 4rem 0;
+            border: 1px solid rgba(202, 167, 119, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #9c27b0, #caa777);
+        }
+        
+        .section-subtitle {
+            color: #caa777;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(202, 167, 119, 0.3);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: background 0.3s, transform 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: linear-gradient(45deg, #9c27b0, #caa777);
+            transform: translateY(-5px);
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .modal-content {
+                max-width: 95%;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .project-info {
+                padding: 2rem;
+            }
+            
+            .video-carousel-container {
+                margin: 2rem auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- <header>
+        <div class="container">
+            <div class="logo">Team Srm</div>
+            <nav class="nav-links">
+                <a href="#videos">Videos</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header> -->
+    
+    <div class="main-content">
+        <section class="hero-section">
+            <div class="floating-elements">
+                <div class="floating-item"></div>
+                <div class="floating-item"></div>
+                <div class="floating-item"></div>
+                <div class="floating-item"></div>
+            </div>
+            <div class="hero-content">
+                <h1 class="hero-title">TEAM SRM</h1>
+                <p class="hero-subtitle">Engineering is the art of directing the great sources of power in nature for the use and convenience of man</p>
+                <!-- <a href="#videos" class="cta-button">Watch Videos</a> -->
+            </div>
+        </section>
+        
+       <div class="container">
+            <section id="videos">
+                <h2 class="section-title">Video Projects</h2>
+                <p style="text-align: center; margin-bottom: 2rem;">Use the controls to navigate through the video projects</p>
+                
+                <!-- Video Carousel -->
+                <div class="video-carousel-container">
+                     <div class="video-carousel">
+                        <!-- Videos will be loaded here -->
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-prev">&#10094;</button>
+                        <div class="carousel-info">
+                            <span id="current-video-title">Project Video 1</span>
+                            <div class="carousel-nav"></div>
+                        </div>
+                        <button class="carousel-next">&#10095;</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="gallery">
+                <h2 class="section-title">Photo Gallery</h2>
+                <p style="text-align: center;">Click on any thumbnail to view the photo in full size.</p>
+                
+                <div class="gallery-grid">
+                    <!-- Photo 1 -->
+                    <div class="media-item" data-type="image" data-src="/api/placeholder/800/600">
+                        <img src="assests\WhatsApp Image 2025-04-08 at 00.19.43_9ee19124.jpg" alt="Photo 1 thumbnail" class="media-thumbnail">
+                        <div class="media-caption">Project Photo 1</div>
+                    </div>
+                    
+                    <!-- Photo 2 -->
+                    <div class="media-item" data-type="image" data-src="/api/placeholder/800/600">
+                        <img src="/api/placeholder/400/250" alt="Photo 2 thumbnail" class="media-thumbnail">
+                        <div class="media-caption">Project Photo 2</div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="about" class="project-info">
+                <p class="section-subtitle">About The Project</p>
+                <h2 class="section-title">Beyond Imagination</h2>
+                <p>This project represents the culmination of months of creative exploration and technical innovation. Inspired by the interplay of light and motion, each piece showcases a unique perspective on how digital media can transcend conventional boundaries.</p>
+                
+                <p class="section-subtitle">Project Details</p>
+                <p>Created using cutting-edge technologies including 3D modeling, motion graphics, and immersive audio design. The work spans multiple disciplines and pushes the boundaries of what's possible in digital storytelling.</p>
+                
+                <p>Each piece in the gallery tells part of a larger narrative, inviting viewers to piece together connections and discover hidden meanings throughout the collection.</p>
+            </section>
+        </div>
+    </div>
+    
+    <!-- Modal for displaying photos only -->
+    <div class="modal" id="photoModal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <div id="modalMediaContainer"></div>
+        </div>
+    </div>
+    
+    <footer id="contact">
+        <div class="container">
+            <h3>Connect With Me</h3>
+            <div class="social-links">
+                <a href="#">FB</a>
+                <a href="#">IG</a>
+                <a href="#">YT</a>
+            </div>
+            <p>© 2025 Creative Showcase - All Rights Reserved</p>
+            <p>Contact: creative@example.com</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Video data
+            const videoData = [
+                {
+                    title: "Project Video 1",
+                    src: "assests\\WhatsApp Video 2025-04-07 at 22.37.35_4babb1fd.mp4",
+                    thumbnail: "/api/placeholder/400/250"
+                },
+                {
+                    title: "Project Video 2",
+                    src: "/api/placeholder/640/360",
+                    thumbnail: "/api/placeholder/400/250"
+                },
+                {
+                    title: "Project Video 3",
+                    src: "/api/placeholder/640/360",
+                    thumbnail: "/api/placeholder/400/250"
+                },
+                {
+                    title: "Project Video 4",
+                    src: "/api/placeholder/640/360",
+                    thumbnail: "/api/placeholder/400/250"
+                }
+            ];
+            
+            // Set up video carousel
+            const videoCarousel = document.querySelector('.video-carousel');
+            const carouselNav = document.querySelector('.carousel-nav');
+            const prevButton = document.querySelector('.carousel-prev');
+            const nextButton = document.querySelector('.carousel-next');
+            const currentVideoTitle = document.getElementById('current-video-title');
+            let currentVideoIndex = 0;
+            
+            // Create video slides
+            videoData.forEach((video, index) => {
+                // Create slide
+                const slide = document.createElement('div');
+                slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
+                
+                // Create video element
+                const videoElement = document.createElement('video');
+                videoElement.className = 'carousel-video';
+                videoElement.src = video.src;
+                videoElement.controls = true;
+                
+                // Only autoplay the first video
+                if (index === 0) {
+                    videoElement.autoplay = true;
+                }
+                
+                slide.appendChild(videoElement);
+                videoCarousel.appendChild(slide);
+                
+                // Create navigation dot
+                const dot = document.createElement('div');
+                dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
+                dot.addEventListener('click', () => goToSlide(index));
+                carouselNav.appendChild(dot);
+            });
+            
+            // Set initial title
+            currentVideoTitle.textContent = videoData[0].title;
+            
+            // Navigation functions
+            function goToSlide(index) {
+                const slides = document.querySelectorAll('.carousel-slide');
+                const dots = document.querySelectorAll('.carousel-dot');
+                
+                // Pause all videos
+                slides.forEach(slide => {
+                    const video = slide.querySelector('video');
+                    if (video) {
+                        video.pause();
+                    }
+                });
+                
+                // Remove active class from all slides and dots
+                slides.forEach((slide, i) => {
+                    slide.classList.remove('active', 'prev');
+                    if (i < index) {
+                        slide.classList.add('prev');
+                    } else if (i > index) {
+                        slide.classList.remove('prev');
+                    }
+                });
+                
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                // Add active class to current slide and dot
+                slides[index].classList.add('active');
+                dots[index].classList.add('active');
+                
+                // Play current video
+                const currentVideo = slides[index].querySelector('video');
+                if (currentVideo) {
+                    currentVideo.play();
+                }
+                
+                // Update title
+                currentVideoTitle.textContent = videoData[index].title;
+                currentVideoIndex = index;
+            }
+            
+            function nextSlide() {
+                const newIndex = (currentVideoIndex + 1) % videoData.length;
+                goToSlide(newIndex);
+            }
+            
+            function prevSlide() {
+                const newIndex = (currentVideoIndex - 1 + videoData.length) % videoData.length;
+                goToSlide(newIndex);
+            }
+            
+            // Add event listeners for navigation
+            nextButton.addEventListener('click', nextSlide);
+            prevButton.addEventListener('click', prevSlide);
+            
+            // Set up photo modal
+            const photoItems = document.querySelectorAll('.media-item[data-type="image"]');
+            const photoModal = document.getElementById('photoModal');
+            const modalMediaContainer = document.getElementById('modalMediaContainer');
+            const closeModalBtn = document.querySelector('.close-modal');
+            
+            // Smooth scroll for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Open modal for photos
+            photoItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const mediaSrc = this.dataset.src;
+                    const mediaCaption = this.querySelector('.media-caption').textContent;
+                    
+                    // Clear previous content
+                    modalMediaContainer.innerHTML = '';
+                    
+                    // Create image element
+                    const image = document.createElement('img');
+                    image.classList.add('modal-image');
+                    image.src = mediaSrc;
+                    image.alt = mediaCaption;
+                    
+                    modalMediaContainer.appendChild(image);
+                    
+                    // Show modal with transition
+                    photoModal.classList.add('active');
+                });
+            });
+            
+            // Close modal
+            closeModalBtn.addEventListener('click', function() {
+                photoModal.classList.remove('active');
+                
+                // Clear after transition
+                setTimeout(() => {
+                    if (!photoModal.classList.contains('active')) {
+                        modalMediaContainer.innerHTML = '';
+                    }
+                }, 300);
+            });
+            
+            // Close modal when clicking outside content
+            photoModal.addEventListener('click', function(event) {
+                if (event.target === photoModal) {
+                    closeModalBtn.click();
+                }
+            });
+            
+            // Close modal with ESC key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && photoModal.classList.contains('active')) {
+                    closeModalBtn.click();
+                }
+            });
+            
+            // Animation for floating elements
+            const floatingElements = document.querySelectorAll('.floating-item');
+            floatingElements.forEach(elem => {
+                const randomX = Math.random() * 100 - 50;
+                const randomY = Math.random() * 100 - 50;
+                elem.style.animation = `float ${20 + Math.random() * 10}s ease-in-out infinite alternate`;
+                elem.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            });
+            
+            // Arrow key navigation for video carousel
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'ArrowLeft') {
+                    prevSlide();
+                } else if (event.key === 'ArrowRight') {
+                    nextSlide();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
