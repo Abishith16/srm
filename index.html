@@ -33,6 +33,95 @@
             z-index: 100;
             top: 0;
         }
+
+        .image-slider-section {
+        margin: 3rem 0 5rem;
+    }
+    
+    .image-slider-container {
+        max-width: 900px;
+        margin: 3rem auto;
+        position: relative;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 15px 50px rgba(202, 167, 119, 0.4);
+    }
+    
+    .image-slider {
+        position: relative;
+        width: 100%;
+        height: 500px;
+        overflow: hidden;
+    }
+    
+    .slider-image {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        cursor: pointer;
+    }
+    
+    .slider-image.active {
+        opacity: 1;
+        z-index: 2;
+    }
+    
+    .slider-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .slider-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        color: white;
+        padding: 2rem 1.5rem 1.5rem;
+        font-size: 1.2rem;
+        text-align: center;
+        z-index: 3;
+    }
+    
+    .navigation-dots {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 5;
+    }
+    
+    .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.4);
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+    
+    .dot.active {
+        background: linear-gradient(45deg, #9c27b0, #caa777);
+        transform: scale(1.2);
+    }
+    
+    @media (max-width: 768px) {
+        .image-slider {
+            height: 300px;
+        }
+        
+        .slider-caption {
+            padding: 1.5rem 1rem 1rem;
+            font-size: 1rem;
+        }
+    }
         
         .logo {
             font-size: 2rem;
@@ -551,6 +640,7 @@
             
             .project-info {
                 padding: 2rem;
+                text-align: justify;
             }
             
             .video-carousel-container {
@@ -586,10 +676,31 @@
                 <!-- <a href="#videos" class="cta-button">Watch Videos</a> -->
             </div>
         </section>
+
+
+        <div class="container">
+            <h2 class="section-title">members</h2>
+            <div class="image-slider-container">
+                <div class="image-slider">
+                    <div class="slider-image active">
+                        <img src="public/assets/img1.jpg" alt="Project Image 1" class="slider-img">
+                        <div class="slider-caption">Switched Reluctance Motor - Front View</div>
+                    </div>
+                    <div class="slider-image">
+                        <img src="public/assets/image2.jpg" alt="Project Image 2" class="slider-img">
+                        <div class="slider-caption">SRM Assembly - Technical Perspective</div>
+                    </div>
+                    <div class="navigation-dots">
+                        <span class="dot active" data-index="0"></span>
+                        <span class="dot" data-index="1"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
         
        <div class="container">
             <section id="videos">
-                <h2 class="section-title">Video Projects</h2>
+                <h2 class="section-title">Project Videos </h2>
                 <p style="text-align: center; margin-bottom: 2rem;">Use the controls to navigate through the video projects</p>
                 
                 <!-- Video Carousel -->
@@ -683,9 +794,9 @@
         <div class="container">
             <h3>Connect With Me</h3>
             <div class="social-links">
-                <a href="#">FB</a>
-                <a href="#">IG</a>
-                <a href="#">YT</a>
+                <!-- <a href="#">FB</a> -->
+                <a href="https://www.instagram.com/abishith__/?next=%2F">IG</a>
+                <!-- <a href="#">GH</a> -->
             </div>
             <p>© 2025 Creative Showcase - All Rights Reserved</p>
             <p>Contact: creative@example.com</p>
@@ -895,6 +1006,72 @@
                 }
             });
         });
+
+
+        const sliderImages = document.querySelectorAll('.slider-image');
+    const dots = document.querySelectorAll('.dot');
+    let currentImageIndex = 0;
+    let sliderInterval;
+    let isAutoPlaying = true;
+    
+    // Function to change slide
+    function changeSlide(index) {
+        // Remove active class from all images and dots
+        sliderImages.forEach(image => image.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        // Add active class to current image and dot
+        sliderImages[index].classList.add('active');
+        dots[index].classList.add('active');
+        currentImageIndex = index;
+    }
+    
+    // Start auto-sliding
+    function startSlider() {
+        sliderInterval = setInterval(() => {
+            const nextIndex = (currentImageIndex + 1) % sliderImages.length;
+            changeSlide(nextIndex);
+        }, 5000); // Change image every 5 seconds
+        
+        isAutoPlaying = true;
+    }
+    
+    // Stop auto-sliding
+    function stopSlider() {
+        clearInterval(sliderInterval);
+        isAutoPlaying = false;
+    }
+    
+    // Initialize slider
+    startSlider();
+    
+    // Click on dots to change slide
+    dots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            const index = parseInt(e.target.dataset.index);
+            changeSlide(index);
+            
+            // If auto-playing, reset the timer
+            if (isAutoPlaying) {
+                stopSlider();
+                startSlider();
+            }
+        });
+    });
+    
+    // Click on slider to toggle auto-play
+    sliderImages.forEach(image => {
+        image.addEventListener('click', () => {
+            if (isAutoPlaying) {
+                stopSlider();
+            } else {
+                startSlider();
+            }
+        });
+    });
+
+        
+
     </script>
 </body>
 </html>
