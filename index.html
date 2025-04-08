@@ -615,13 +615,19 @@
                 <div class="gallery-grid">
                     <!-- Photo 1 -->
                     <div class="media-item" data-type="image" data-src="/assets/WhatsApp Image 2025-04-08 at 00.19.43_9ee19124.jpg">
-                        <img src="public/assets/WhatsApp Image 2025-04-08 at 00.19.43_9ee19124.jpg" alt="Photo 1 thumbnail" class="media-thumbnail">
+                        <img src="public/assets/img1.jpg" alt="Photo 1 thumbnail" class="media-thumbnail">
                         <div class="media-caption">Project Photo 1</div>
                     </div>
                     
                     <!-- Photo 2 -->
                     <div class="media-item" data-type="image" data-src="https://via.placeholder.com/800x600">
                         <img src="public/assets/image2.jpg" alt="Photo 2 thumbnail" class="media-thumbnail">
+                        <div class="media-caption">Project Photo 2</div>
+                    </div>
+
+                    <!-- Photo 3 -->
+                    <div class="media-item" data-type="image" data-src="https://via.placeholder.com/800x600">
+                        <img src="public/assets/WhatsApp Image 2025-04-08 at 00.19.43_9ee19124.jpg" alt="Photo 2 thumbnail" class="media-thumbnail">
                         <div class="media-caption">Project Photo 2</div>
                     </div>
                 </div>
@@ -651,7 +657,7 @@
                     demonstrating its potential for various industrial and automotive applications.</p>
                 
                 
-                    
+
             
             
                 <div class="download-container">
@@ -688,121 +694,124 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Video data
-            const videoData = [
-                {
-                    title: "Project Video 1",
-                    src: "public/assets/WhatsApp Video 2025-04-07 at 22.37.35_4babb1fd.mp4",
-                    thumbnail: "https://via.placeholder.com/400x250"
-                },
-                {
-                    title: "Project Video 2",
-                    src: "public/assets/WhatsApp Video 2025-04-07 at 22.38.14_00aff3f4.mp4",
-                    thumbnail: "https://via.placeholder.com/400x250"
-                },
-                {
-                    title: "Project Video 3",
-                    src: "public/assets/video3.mp4",
-                    thumbnail: "https://via.placeholder.com/400x250"
-                },
-                {
-                    title: "Project Video 4",
-                    src: "public/assets/video4.mp4",
-                    thumbnail: "https://via.placeholder.com/400x250"
-                }
-            ];
-            
-            // Set up video carousel
-            const videoCarousel = document.querySelector('.video-carousel');
-            const carouselNav = document.querySelector('.carousel-nav');
-            const prevButton = document.querySelector('.carousel-prev');
-            const nextButton = document.querySelector('.carousel-next');
-            const currentVideoTitle = document.getElementById('current-video-title');
-            let currentVideoIndex = 0;
-            
-            // Create video slides
-            videoData.forEach((video, index) => {
-                // Create slide
-                const slide = document.createElement('div');
-                slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
-                
-                // Create video element
-                const videoElement = document.createElement('video');
-                videoElement.className = 'carousel-video';
-                videoElement.src = video.src;
-                videoElement.controls = true;
-                
-                // Only autoplay the first video
-                if (index === 0) {
-                    videoElement.autoplay = true;
-                }
-                
-                slide.appendChild(videoElement);
-                videoCarousel.appendChild(slide);
-                
-                // Create navigation dot
-                const dot = document.createElement('div');
-                dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
-                dot.addEventListener('click', () => goToSlide(index));
-                carouselNav.appendChild(dot);
-            });
-            
-            // Set initial title
-            currentVideoTitle.textContent = videoData[0].title;
-            
-            // Navigation functions
-            function goToSlide(index) {
-                const slides = document.querySelectorAll('.carousel-slide');
-                const dots = document.querySelectorAll('.carousel-dot');
-                
-                // Pause all videos
-                slides.forEach(slide => {
-                    const video = slide.querySelector('video');
-                    if (video) {
-                        video.pause();
-                    }
-                });
-                
-                // Remove active class from all slides and dots
-                slides.forEach((slide, i) => {
-                    slide.classList.remove('active', 'prev');
-                    if (i < index) {
-                        slide.classList.add('prev');
-                    } else if (i > index) {
-                        slide.classList.remove('prev');
-                    }
-                });
-                
-                dots.forEach(dot => dot.classList.remove('active'));
-                
-                // Add active class to current slide and dot
-                slides[index].classList.add('active');
-                dots[index].classList.add('active');
-                
-                // Play current video
-                const currentVideo = slides[index].querySelector('video');
-                if (currentVideo) {
-                    currentVideo.play();
-                }
-                
-                // Update title
-                currentVideoTitle.textContent = videoData[index].title;
-                currentVideoIndex = index;
+    // Video data
+    const videoData = [
+        {
+            title: "Project Video 1",
+            src: "public/assets/video1.mp4",
+            thumbnail: "https://via.placeholder.com/400x250"
+        },
+        {
+            title: "Project Video 2",
+            src: "public/assets/video2.mp4",
+            thumbnail: "https://via.placeholder.com/400x250"
+        },
+        {
+            title: "Project Video 3",
+            src: "public/assets/video3.mp4",
+            thumbnail: "https://via.placeholder.com/400x250"
+        },
+        {
+            title: "Project Video 4",
+            src: "public/assets/video4.mp4",
+            thumbnail: "https://via.placeholder.com/400x250"
+        }
+    ];
+    
+    // Set up video carousel
+    const videoCarousel = document.querySelector('.video-carousel');
+    const carouselNav = document.querySelector('.carousel-nav');
+    const prevButton = document.querySelector('.carousel-prev');
+    const nextButton = document.querySelector('.carousel-next');
+    const currentVideoTitle = document.getElementById('current-video-title');
+    let currentVideoIndex = 0;
+    
+    // Create video slides
+    videoData.forEach((video, index) => {
+        // Create slide
+        const slide = document.createElement('div');
+        slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
+        
+        // Create video element
+        const videoElement = document.createElement('video');
+        videoElement.className = 'carousel-video';
+        videoElement.src = video.src;
+        videoElement.controls = true;
+        videoElement.muted = true; // Set videos to muted by default
+        
+        // Only autoplay the first video
+        if (index === 0) {
+            videoElement.autoplay = true;
+        }
+        
+        slide.appendChild(videoElement);
+        videoCarousel.appendChild(slide);
+        
+        // Create navigation dot
+        const dot = document.createElement('div');
+        dot.className = `carousel-dot ${index === 0 ? 'active' : ''}`;
+        dot.addEventListener('click', () => goToSlide(index));
+        carouselNav.appendChild(dot);
+    });
+    
+    // Set initial title
+    currentVideoTitle.textContent = videoData[0].title;
+    
+    // Navigation functions
+    function goToSlide(index) {
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        
+        // Pause all videos
+        slides.forEach(slide => {
+            const video = slide.querySelector('video');
+            if (video) {
+                video.pause();
             }
-            
-            function nextSlide() {
-                const newIndex = (currentVideoIndex + 1) % videoData.length;
-                goToSlide(newIndex);
+        });
+        
+        // Remove active class from all slides and dots
+        slides.forEach((slide, i) => {
+            slide.classList.remove('active', 'prev');
+            if (i < index) {
+                slide.classList.add('prev');
+            } else if (i > index) {
+                slide.classList.remove('prev');
             }
-            
-            function prevSlide() {
-                const newIndex = (currentVideoIndex - 1 + videoData.length) % videoData.length;
-                goToSlide(newIndex);
-            }
-            
-            // Add event listeners for navigation
-            nextButton.addEventListener('click', nextSlide);
-            prevButton.addEventListener('click', prevSlide);
+        });
+        
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        // Add active class to current slide and dot
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+        
+        // Play current video (muted)
+        const currentVideo = slides[index].querySelector('video');
+        if (currentVideo) {
+            currentVideo.muted = true; // Ensure video remains muted when switching
+            currentVideo.play();
+        }
+        
+        // Update title
+        currentVideoTitle.textContent = videoData[index].title;
+        currentVideoIndex = index;
+    }
+    
+    // Rest of the carousel code...
+    function nextSlide() {
+        const newIndex = (currentVideoIndex + 1) % videoData.length;
+        goToSlide(newIndex);
+    }
+    
+    function prevSlide() {
+        const newIndex = (currentVideoIndex - 1 + videoData.length) % videoData.length;
+        goToSlide(newIndex);
+    }
+    
+    // Add event listeners for navigation
+    nextButton.addEventListener('click', nextSlide);
+    prevButton.addEventListener('click', prevSlide);
             
             // Set up photo modal
             const photoItems = document.querySelectorAll('.media-item[data-type="image"]');
