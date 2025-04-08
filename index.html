@@ -381,7 +381,46 @@
                 transform: translate(0, 0) rotate(360deg);
             }
         }
-        
+        .download-container {
+        margin-top: 2.5rem;
+        text-align: center;
+    }
+    
+    .download-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(45deg, #9c27b0, #caa777);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-radius: 30px;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(202, 167, 119, 0.4);
+        gap: 10px;
+    }
+    
+    .download-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(202, 167, 119, 0.6);
+    }
+    
+    .download-icon {
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+    
+    @media (max-width: 768px) {
+        .download-button {
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+        }
+    }
         /* Modal for photos only */
         .modal {
             display: none;
@@ -582,7 +621,7 @@
                     
                     <!-- Photo 2 -->
                     <div class="media-item" data-type="image" data-src="https://via.placeholder.com/800x600">
-                        <img src="https://via.placeholder.com/400x250" alt="Photo 2 thumbnail" class="media-thumbnail">
+                        <img src="public/assets/image2.jpg" alt="Photo 2 thumbnail" class="media-thumbnail">
                         <div class="media-caption">Project Photo 2</div>
                     </div>
                 </div>
@@ -591,12 +630,37 @@
             <section id="about" class="project-info">
                 <p class="section-subtitle">About The Project</p>
                 <h2 class="section-title">Beyond Imagination</h2>
-                <p>This project represents the culmination of months of creative exploration and technical innovation. Inspired by the interplay of light and motion, each piece showcases a unique perspective on how digital media can transcend conventional boundaries.</p>
-                
                 <p class="section-subtitle">Project Details</p>
-                <p>Created using cutting-edge technologies including 3D modeling, motion graphics, and immersive audio design. The work spans multiple disciplines and pushes the boundaries of what's possible in digital storytelling.</p>
+                <p>This project focuses on the design, fabrication, and control of an 8/6 Switched Re-
+                    luctance Motor (SRM) and drive system. SRMs, known for their robust construction, high
+                    
+                    efficiency, and fault tolerance, have gained significant attention in various applications.
+                    
+                    The 8/6 SRM configuration offers a favorable trade-off between torque density and switch-
+                    ing losses. The design process involves detailed electromagnetic and thermal analysis to
+                    
+                    optimize the motor’s performance and ensure efficient heat dissipation. The fabricated
+                    motor is meticulously assembled, incorporating precision machining techniques to achieve
+                    
+                    accurate dimensions and alignments. The control system, implemented using a microcon-
+                    troller, plays a crucial role in generating precise switching signals to energize the stator
+                    
+                    windings at appropriate instants, thereby regulating the motor’s torque and speed. Exper-
+                    imental results validate the effectiveness of the designed and fabricated SRM drive system,
+                    
+                    demonstrating its potential for various industrial and automotive applications.</p>
                 
-                <p>Each piece in the gallery tells part of a larger narrative, inviting viewers to piece together connections and discover hidden meanings throughout the collection.</p>
+                
+                    
+            
+            
+                <div class="download-container">
+                    <a href="public/assets/SRM .pdf" download class="download-button">
+                        <span class="download-icon">&#8595;</span>
+                        Download Project PDF
+                    </a>
+                </div>
+            
             </section>
         </div>
     </div>
@@ -633,17 +697,17 @@
                 },
                 {
                     title: "Project Video 2",
-                    src: "https://via.placeholder.com/640x360",
+                    src: "public/assets/WhatsApp Video 2025-04-07 at 22.38.14_00aff3f4.mp4",
                     thumbnail: "https://via.placeholder.com/400x250"
                 },
                 {
                     title: "Project Video 3",
-                    src: "https://via.placeholder.com/640x360",
+                    src: "public/assets/video3.mp4",
                     thumbnail: "https://via.placeholder.com/400x250"
                 },
                 {
                     title: "Project Video 4",
-                    src: "https://via.placeholder.com/640x360",
+                    src: "public/assets/video4.mp4",
                     thumbnail: "https://via.placeholder.com/400x250"
                 }
             ];
